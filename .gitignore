@@ -1,0 +1,30 @@
+.task
+bin
+frontend/dist
+frontend/node_modules
+build/linux/appimage/build
+build/windows/nsis/MicrosoftEdgeWebview2Setup.exe
+
+
+# CPython
+__pycache__/
+*.pyc
+
+# Packaging and Distributing
+/dist/
+/*.egg-info/
+
+# Pycharm
+/.idea/
+
+# Test
+.pytest_cache/
+/.tox/
+
+# virtualenv
+/venv/
+
+# mypy
+.mypy_cache
+
+node_modules

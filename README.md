@@ -13,6 +13,17 @@
 6. 配置可导入导出。  
 7. 支持批量处理配置。（这个功能加大模型很好用） 
 
+# 演示
+
+![img1.png](img/img1.png)
+![img2.png](img/img2.png)
+![免安装.png](img/%E5%85%8D%E5%AE%89%E8%A3%85.png)
+![参数设置.png](img/%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE.png)
+![多字体.png](img/%E5%A4%9A%E5%AD%97%E4%BD%93.png)
+![支持本地字体.png](img/%E6%94%AF%E6%8C%81%E6%9C%AC%E5%9C%B0%E5%AD%97%E4%BD%93.png)
+![效果.png](img/%E6%95%88%E6%9E%9C.png)
+
+
 # 下载地址
 通过网盘分享的文件：HandwriteEngine  
 链接: https://pan.baidu.com/s/1YpocYxh4AioMq5-uIi8OPQ?pwd=7j5r 提取码: 7j5r  
