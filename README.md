@@ -1,10 +1,18 @@
 # HandwriteEngine（未开源，这里仅使用文档）
+
+## 下载地址
+通过网盘分享的文件：HandwriteEngine  
+链接: https://pan.baidu.com/s/1YpocYxh4AioMq5-uIi8OPQ?pwd=7j5r 提取码: 7j5r
+手写字体网上很多可以下载的。可以找和自己风格比较接近的字体。
+百度直接搜手写字体下载即可。
+
+## 介绍
 一个基于 Wails3 + React 开发的桌面应用程序，用于将数字文本转换为自然的手写风格文字，支持表单填写、批量处理。  
 手写文字生成器桌面应用，支持windows和mac。  
 支持试用，试用版有水印。  
 参考了网上的开源项目，但是实现上全部是和 cursor 双排写的。  
 
-# 特点
+## 特点
 1. 使用 wails 开发。   
 2. 绿色免安装，应用程序只有 20M，支持跨平台。  
 3. 无需联网也可使用，数据全部在本地，没有隐私问题。  
@@ -13,19 +21,15 @@
 6. 配置可导入导出。  
 7. 支持批量处理配置。（这个功能加大模型很好用） 
 
-# 演示
+## 演示
 
 ![img1.png](img/img1.png)
 ![img2.png](img/img2.png)
-![免安装.png](img/%E5%85%8D%E5%AE%89%E8%A3%85.png)
+![生物实验报告.png](img/生物实验报告.png)
+![免安装.png](img/免安装.png)
 ![参数设置.png](img/%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE.png)
 ![多字体.png](img/%E5%A4%9A%E5%AD%97%E4%BD%93.png)
 ![支持本地字体.png](img/%E6%94%AF%E6%8C%81%E6%9C%AC%E5%9C%B0%E5%AD%97%E4%BD%93.png)
-![效果.png](img/%E6%95%88%E6%9E%9C.png)
+![效果.png](img/效果.png)
+![照片.png](img/照片.png)
 
-
-# 下载地址
-通过网盘分享的文件：HandwriteEngine  
-链接: https://pan.baidu.com/s/1YpocYxh4AioMq5-uIi8OPQ?pwd=7j5r 提取码: 7j5r  
-
-手写字体网上很多可以下载的。可以找和自己风格比较接近的字体。  
