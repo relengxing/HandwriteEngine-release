@@ -3,657 +3,519 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>墨迹 - 智能手写文字生成器</title>
+    <title>手写文本生成器 - HandwriteEngine</title>
     <style>
-        :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #6b8cbc;
-            --accent-color: #ff9a76;
-            --light-color: #f8f9fa;
-            --dark-color: #333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f5f5;
-            color: var(--dark-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        
+
         .container {
-            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
         }
-        
-        /* 导航栏样式 */
+
+        /* Header */
         header {
-            background-color: white;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            padding: 20px 0;
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
         }
-        
+
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .logo i {
-            margin-right: 8px;
-        }
-        
+
         .nav-links {
             display: flex;
+            gap: 30px;
             list-style: none;
         }
-        
-        .nav-links li {
-            margin-left: 25px;
-        }
-        
+
         .nav-links a {
             text-decoration: none;
-            color: var(--dark-color);
+            color: #333;
             font-weight: 500;
-            transition: var(--transition);
+            transition: color 0.3s;
         }
-        
+
         .nav-links a:hover {
-            color: var(--primary-color);
+            color: #667eea;
         }
-        
-        .cta-button {
-            background-color: var(--primary-color);
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
         }
-        
-        .cta-button:hover {
-            background-color: var(--secondary-color);
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
-        
-        /* 英雄区域样式 */
-        .hero {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #e0f7fa 0%, #f9fbe7 100%);
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            color: #555;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .secondary-button {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .secondary-button:hover {
-            background-color: rgba(74, 111, 165, 0.1);
-        }
-        
-        /* 功能区域样式 */
+
+        /* Features Section */
         .features {
-            padding: 80px 0;
-            background-color: white;
+            background: white;
+            padding: 80px 20px;
         }
-        
+
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: #333;
         }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        
-        .section-title p {
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background-color: var(--light-color);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-        
-        .feature-card h3 {
-            margin-bottom: 15px;
-            color: var(--dark-color);
-        }
-        
-        /* 生成器样式 */
-        .generator {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #f9fbe7 0%, #e0f7fa 100%);
-        }
-        
-        .generator-container {
-            display: flex;
-            flex-wrap: wrap;
             gap: 40px;
-            align-items: center;
+            margin-top: 60px;
         }
-        
-        .generator-input {
-            flex: 1;
-            min-width: 300px;
-        }
-        
-        .generator-preview {
-            flex: 1;
-            min-width: 300px;
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
             text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        
-        .input-group {
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 48px;
             margin-bottom: 20px;
         }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #667eea;
         }
-        
-        .input-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        .style-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .style-option {
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .style-option:hover, .style-option.active {
-            border-color: var(--primary-color);
-            background-color: rgba(74, 111, 165, 0.05);
-        }
-        
-        .style-sample {
-            font-family: 'Comic Sans MS', cursive;
-            margin-bottom: 5px;
-        }
-        
-        .preview-box {
-            background-color: white;
-            border-radius: 10px;
-            padding: 40px;
-            box-shadow: var(--shadow);
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .preview-text {
-            font-family: 'Comic Sans MS', cursive;
-            font-size: 1.5rem;
+
+        .feature-card p {
+            color: #666;
             line-height: 1.8;
         }
-        
-        /* 示例样式 */
-        .examples {
-            padding: 80px 0;
-            background-color: white;
+
+        /* Screenshots Section */
+        .screenshots {
+            background: #f8f9fa;
+            padding: 80px 20px;
         }
-        
-        .examples-grid {
+
+        .screenshot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 30px;
+            margin-top: 40px;
         }
-        
-        .example-card {
+
+        .screenshot-placeholder {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #ddd;
+        }
+
+        .screenshot-placeholder img {
+            max-width: 100%;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            margin-bottom: 20px;
+            display: none;
         }
-        
-        .example-card:hover {
-            transform: translateY(-5px);
+
+        .screenshot-placeholder.has-image img {
+            display: block;
         }
-        
-        .example-image {
-            height: 200px;
-            background-color: #f0f0f0;
+
+        .screenshot-placeholder .placeholder-text {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .screenshot-placeholder.has-image .placeholder-text {
+            display: none;
+        }
+
+        /* Download Section */
+        .download {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .download-btn {
+            background: white;
+            color: #667eea;
+            padding: 20px 50px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-family: 'Comic Sans MS', cursive;
-            font-size: 1.2rem;
-            padding: 20px;
-            text-align: center;
+            gap: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .example-info {
-            padding: 20px;
-            background-color: var(--light-color);
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
         }
-        
-        /* 页脚样式 */
+
+        .download-btn .icon {
+            font-size: 32px;
+        }
+
+        /* Footer */
         footer {
-            background-color: var(--dark-color);
+            background: #2c3e50;
             color: white;
-            padding: 60px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-column h3 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .copyright {
+            padding: 40px 20px;
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            color: #aaa;
-            font-size: 0.9rem;
         }
-        
-        /* 响应式设计 */
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
             .nav-links {
                 display: none;
             }
-            
-            .hero h1 {
-                font-size: 2.2rem;
+
+            .screenshot-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .hero-buttons {
+
+            .download-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .hero-buttons button {
-                width: 100%;
-                max-width: 300px;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card, .screenshot-placeholder {
+            animation: fadeInUp 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- Header -->
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i>✍️</i> 墨迹
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#features">功能特色</a></li>
-                    <li><a href="#generator">在线生成</a></li>
-                    <li><a href="#examples">效果示例</a></li>
-                    <li><a href="#pricing">价格方案</a></li>
-                </ul>
-                <button class="cta-button">立即使用</button>
-            </nav>
-        </div>
+        <nav class="container">
+            <div class="logo">✍️ HandwriteEngine</div>
+            <ul class="nav-links">
+                <li><a href="#features">功能特性</a></li>
+                <li><a href="#screenshots">效果展示</a></li>
+                <li><a href="#download">下载</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- 英雄区域 -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>智能手写文字生成器</h1>
-            <p>将普通文字转换为自然流畅的手写风格，支持多种笔迹样式，适用于笔记、贺卡、设计等多种场景。</p>
-            <div class="hero-buttons">
-                <button class="cta-button">免费试用</button>
-                <button class="secondary-button">了解更多</button>
+            <h1>手写文本生成器</h1>
+            <p>将数字文本转换为自然的手写风格文字<br>支持表单填写、模板管理和批量处理</p>
+            <div class="cta-buttons">
+                <a href="#download" class="btn btn-primary">立即下载</a>
+                <a href="#features" class="btn btn-secondary">了解更多</a>
             </div>
         </div>
     </section>
 
-    <!-- 功能特色 -->
+    <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
-            <div class="section-title">
-                <h2>强大功能</h2>
-                <p>墨迹提供多种专业功能，满足您对手写文字的各种需求</p>
-            </div>
+            <h2 class="section-title">核心功能</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🖊️</div>
-                    <h3>多种笔迹风格</h3>
-                    <p>提供钢笔、铅笔、毛笔等多种笔迹风格，每种风格都有独特的视觉效果。</p>
+                    <div class="feature-icon">📝</div>
+                    <h3>填写表单</h3>
+                    <p>框选添加文字段，导入表单背景图，实时预览手写效果，支持撤销重做和缩放控制</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎨</div>
-                    <h3>个性化定制</h3>
-                    <p>调整字体大小、倾斜度、颜色和背景，创建完全符合您需求的手写效果。</p>
+                    <h3>手写效果</h3>
+                    <p>多种扰动参数，文字和笔画的偏移、旋转、缩放、扭曲，模拟真实手写的随机性</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>多平台支持</h3>
-                    <p>支持Windows、Mac、iOS和Android系统，随时随地生成手写文字。</p>
+                    <div class="feature-icon">🔧</div>
+                    <h3>配置管理</h3>
+                    <p>YAML 格式导入导出，智能配置压缩，支持 defaults 机制，大幅减少冗余配置</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>设置管理</h3>
+                    <p>默认参数配置，参数范围自定义，本地字体加载，字体预览功能</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>模板管理</h3>
+                    <p>创建和管理常用表单模板，支持模板导入导出，快速应用模板到新表单</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
                     <h3>批量处理</h3>
-                    <p>一次性生成大量手写文字，提高工作效率，节省宝贵时间。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>安全可靠</h3>
-                    <p>您的数据安全是我们的首要任务，所有处理均在本地完成，保护隐私。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3>多种格式导出</h3>
-                    <p>支持PNG、JPG、PDF等多种格式导出，满足不同场景的使用需求。</p>
+                    <p>高效处理大量表单，自动化工作流程，提高工作效率</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 在线生成器 -->
-    <section class="generator" id="generator">
+    <!-- Screenshots Section -->
+    <section class="screenshots" id="screenshots">
         <div class="container">
-            <div class="section-title">
-                <h2>在线生成器</h2>
-                <p>立即体验，将普通文字转换为自然手写风格</p>
-            </div>
-            <div class="generator-container">
-                <div class="generator-input">
-                    <div class="input-group">
-                        <label for="text-input">输入文字</label>
-                        <textarea id="text-input" placeholder="请输入您想要转换为手写体的文字...">墨迹手写生成器，让数字文字拥有手写的温度与情感。</textarea>
+            <h2 class="section-title">效果展示</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">
+                    <img src="" alt="效果图1" />
+                    <div class="placeholder-text">
+                        <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
+                        <p>在此处添加效果图</p>
+                        <p style="font-size: 12px; margin-top: 10px;">建议尺寸：800x600px</p>
                     </div>
-                    
-                    <div class="input-group">
-                        <label>选择笔迹风格</label>
-                        <div class="style-options">
-                            <div class="style-option active">
-                                <div class="style-sample" style="font-family: 'Comic Sans MS', cursive;">优雅钢笔</div>
-                                <div>钢笔体</div>
-                            </div>
-                            <div class="style-option">
-                                <div class="style-sample" style="font-family: 'Brush Script MT', cursive;">流畅草书</div>
-                                <div>草书体</div>
-                            </div>
-                            <div class="style-option">
-                                <div class="style-sample" style="font-family: 'Segoe Print', sans-serif;">可爱圆体</div>
-                                <div>圆体</div>
-                            </div>
-                            <div class="style-option">
-                                <div class="style-sample" style="font-family: 'Lucida Handwriting', cursive;">正式手写</div>
-                                <div>手写体</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>调整参数</label>
-                        <div style="display: flex; gap: 15px;">
-                            <div style="flex: 1;">
-                                <label for="size-slider">字体大小</label>
-                                <input type="range" id="size-slider" min="12" max="48" value="24" style="width: 100%;">
-                            </div>
-                            <div style="flex: 1;">
-                                <label for="color-picker">文字颜色</label>
-                                <input type="color" id="color-picker" value="#333333" style="width: 100%;">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="cta-button" style="width: 100%;">生成手写文字</button>
                 </div>
-                
-                <div class="generator-preview">
-                    <div class="preview-box">
-                        <div class="preview-text" id="preview-text" style="font-size: 24px; color: #333333;">
-                            墨迹手写生成器，让数字文字拥有手写的温度与情感。
-                        </div>
+                <div class="screenshot-placeholder">
+                    <img src="" alt="效果图2" />
+                    <div class="placeholder-text">
+                        <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
+                        <p>在此处添加效果图</p>
+                        <p style="font-size: 12px; margin-top: 10px;">建议尺寸：800x600px</p>
                     </div>
-                    <button class="secondary-button">下载图片</button>
-                    <button class="secondary-button">分享</button>
+                </div>
+                <div class="screenshot-placeholder">
+                    <img src="" alt="效果图3" />
+                    <div class="placeholder-text">
+                        <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
+                        <p>在此处添加效果图</p>
+                        <p style="font-size: 12px; margin-top: 10px;">建议尺寸：800x600px</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 效果示例 -->
-    <section class="examples" id="examples">
+    <!-- Download Section -->
+    <section class="download" id="download">
         <div class="container">
-            <div class="section-title">
-                <h2>效果示例</h2>
-                <p>看看其他用户使用墨迹生成的手写文字效果</p>
+            <h2 class="section-title" style="color: white;">立即下载</h2>
+            <p style="font-size: 18px; margin-bottom: 20px; opacity: 0.95;">支持 Windows 和 macOS 平台</p>
+            <div class="download-buttons">
+                <a href="#" class="download-btn" id="download-windows">
+                    <span class="icon">🪟</span>
+                    <div>
+                        <div style="font-weight: bold;">Windows 版本</div>
+                        <div style="font-size: 14px; opacity: 0.7;">下载 .exe 安装包</div>
+                    </div>
+                </a>
+                <a href="#" class="download-btn" id="download-mac">
+                    <span class="icon">🍎</span>
+                    <div>
+                        <div style="font-weight: bold;">macOS 版本</div>
+                        <div style="font-size: 14px; opacity: 0.7;">下载 .dmg 安装包</div>
+                    </div>
+                </a>
             </div>
-            <div class="examples-grid">
-                <div class="example-card">
-                    <div class="example-image" style="font-family: 'Comic Sans MS', cursive; background-color: #f0f8ff;">
-                        亲爱的朋友，祝你生日快乐，愿你的每一天都充满阳光和欢笑！
-                    </div>
-                    <div class="example-info">
-                        <h4>生日贺卡</h4>
-                        <p>优雅钢笔风格</p>
-                    </div>
-                </div>
-                <div class="example-card">
-                    <div class="example-image" style="font-family: 'Brush Script MT', cursive; background-color: #fffaf0;">
-                        生活就像一盒巧克力，你永远不知道下一颗是什么味道。
-                    </div>
-                    <div class="example-info">
-                        <h4>名言摘录</h4>
-                        <p>流畅草书风格</p>
-                    </div>
-                </div>
-                <div class="example-card">
-                    <div class="example-image" style="font-family: 'Segoe Print', sans-serif; background-color: #f5f5f5;">
-                        今日待办事项：1.完成项目报告 2.购买生日礼物 3.健身一小时
-                    </div>
-                    <div class="example-info">
-                        <h4>个人笔记</h4>
-                        <p>可爱圆体风格</p>
-                    </div>
-                </div>
-                <div class="example-card">
-                    <div class="example-image" style="font-family: 'Lucida Handwriting', cursive; background-color: #f8f8ff;">
-                        感谢您选择我们的产品，我们始终致力于为您提供最优质的服务。
-                    </div>
-                    <div class="example-info">
-                        <h4>商务信函</h4>
-                        <p>正式手写风格</p>
-                    </div>
-                </div>
-            </div>
+            <p style="margin-top: 40px; opacity: 0.8; font-size: 14px;">
+                💡 提示：请将下载链接替换为实际的文件下载地址
+            </p>
         </div>
     </section>
 
-    <!-- 页脚 -->
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>墨迹</h3>
-                    <p>智能手写文字生成器，让数字文字拥有手写的温度与情感。</p>
-                </div>
-                <div class="footer-column">
-                    <h3>产品</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">功能特色</a></li>
-                        <li><a href="#">价格方案</a></li>
-                        <li><a href="#">下载应用</a></li>
-                        <li><a href="#">更新日志</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>支持</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">帮助中心</a></li>
-                        <li><a href="#">使用教程</a></li>
-                        <li><a href="#">常见问题</a></li>
-                        <li><a href="#">联系我们</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>公司</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">关于我们</a></li>
-                        <li><a href="#">博客</a></li>
-                        <li><a href="#">招聘</a></li>
-                        <li><a href="#">隐私政策</a></li>
-                    </ul>
-                </div>
+            <div class="footer-links">
+                <a href="#features">功能特性</a>
+                <a href="#screenshots">效果展示</a>
+                <a href="#download">下载</a>
+                <a href="README.md">使用文档</a>
             </div>
-            <div class="copyright">
-                &copy; 2023 墨迹手写生成器 版权所有
-            </div>
+            <p style="opacity: 0.8; margin-top: 20px;">
+                © 2025 HandwriteEngine.
+            </p>
         </div>
     </footer>
 
     <script>
-        // 简单的交互功能
-        document.addEventListener('DOMContentLoaded', function() {
-            // 风格选择
-            const styleOptions = document.querySelectorAll('.style-option');
-            styleOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    styleOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // 更新预览文本样式
-                    const previewText = document.getElementById('preview-text');
-                    const sample = this.querySelector('.style-sample');
-                    previewText.style.fontFamily = sample.style.fontFamily;
-                });
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
+        });
+
+        // 图片加载处理
+        document.querySelectorAll('.screenshot-placeholder img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.parentElement.classList.add('has-image');
+            });
+            img.addEventListener('error', function() {
+                this.parentElement.classList.remove('has-image');
+            });
+        });
+
+        // 下载按钮提示（实际使用时请替换为真实下载链接）
+        document.getElementById('download-windows').addEventListener('click', function(e) {
+            // 实际使用时，取消下面的注释并替换为真实链接
+            // window.location.href = 'https://your-domain.com/downloads/HandwriteEngine-Windows.exe';
             
-            // 字体大小调整
-            const sizeSlider = document.getElementById('size-slider');
-            sizeSlider.addEventListener('input', function() {
-                const previewText = document.getElementById('preview-text');
-                previewText.style.fontSize = this.value + 'px';
-            });
+            // 临时提示
+            if (this.getAttribute('href') === '#') {
+                e.preventDefault();
+                alert('请将 Windows 下载链接添加到 id="download-windows" 的 a 标签的 href 属性中');
+            }
+        });
+
+        document.getElementById('download-mac').addEventListener('click', function(e) {
+            // 实际使用时，取消下面的注释并替换为真实链接
+            // window.location.href = 'https://your-domain.com/downloads/HandwriteEngine-macOS.dmg';
             
-            // 颜色调整
-            const colorPicker = document.getElementById('color-picker');
-            colorPicker.addEventListener('input', function() {
-                const previewText = document.getElementById('preview-text');
-                previewText.style.color = this.value;
-            });
-            
-            // 文本输入更新
-            const textInput = document.getElementById('text-input');
-            textInput.addEventListener('input', function() {
-                const previewText = document.getElementById('preview-text');
-                previewText.textContent = this.value || '请输入文字...';
-            });
+            // 临时提示
+            if (this.getAttribute('href') === '#') {
+                e.preventDefault();
+                alert('请将 macOS 下载链接添加到 id="download-mac" 的 a 标签的 href 属性中');
+            }
         });
     </script>
 </body>
