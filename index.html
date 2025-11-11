@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>墨迹 - 智能手写文字生成器</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff9a76;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .cta-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* 英雄区域样式 */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f9fbe7 100%);
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .secondary-button:hover {
+            background-color: rgba(74, 111, 165, 0.1);
+        }
+        
+        /* 功能区域样式 */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        /* 生成器样式 */
+        .generator {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f9fbe7 0%, #e0f7fa 100%);
+        }
+        
+        .generator-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .generator-input {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .generator-preview {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .input-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .style-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .style-option {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .style-option:hover, .style-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(74, 111, 165, 0.05);
+        }
+        
+        .style-sample {
+            font-family: 'Comic Sans MS', cursive;
+            margin-bottom: 5px;
+        }
+        
+        .preview-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .preview-text {
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        /* 示例样式 */
+        .examples {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .example-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .example-image {
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.2rem;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .example-info {
+            padding: 20px;
+            background-color: var(--light-color);
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i>✍️</i> 墨迹
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">功能特色</a></li>
+                    <li><a href="#generator">在线生成</a></li>
+                    <li><a href="#examples">效果示例</a></li>
+                    <li><a href="#pricing">价格方案</a></li>
+                </ul>
+                <button class="cta-button">立即使用</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <h1>智能手写文字生成器</h1>
+            <p>将普通文字转换为自然流畅的手写风格，支持多种笔迹样式，适用于笔记、贺卡、设计等多种场景。</p>
+            <div class="hero-buttons">
+                <button class="cta-button">免费试用</button>
+                <button class="secondary-button">了解更多</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能特色 -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>强大功能</h2>
+                <p>墨迹提供多种专业功能，满足您对手写文字的各种需求</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🖊️</div>
+                    <h3>多种笔迹风格</h3>
+                    <p>提供钢笔、铅笔、毛笔等多种笔迹风格，每种风格都有独特的视觉效果。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>个性化定制</h3>
+                    <p>调整字体大小、倾斜度、颜色和背景，创建完全符合您需求的手写效果。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>多平台支持</h3>
+                    <p>支持Windows、Mac、iOS和Android系统，随时随地生成手写文字。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>批量处理</h3>
+                    <p>一次性生成大量手写文字，提高工作效率，节省宝贵时间。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>安全可靠</h3>
+                    <p>您的数据安全是我们的首要任务，所有处理均在本地完成，保护隐私。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>多种格式导出</h3>
+                    <p>支持PNG、JPG、PDF等多种格式导出，满足不同场景的使用需求。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 在线生成器 -->
+    <section class="generator" id="generator">
+        <div class="container">
+            <div class="section-title">
+                <h2>在线生成器</h2>
+                <p>立即体验，将普通文字转换为自然手写风格</p>
+            </div>
+            <div class="generator-container">
+                <div class="generator-input">
+                    <div class="input-group">
+                        <label for="text-input">输入文字</label>
+                        <textarea id="text-input" placeholder="请输入您想要转换为手写体的文字...">墨迹手写生成器，让数字文字拥有手写的温度与情感。</textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>选择笔迹风格</label>
+                        <div class="style-options">
+                            <div class="style-option active">
+                                <div class="style-sample" style="font-family: 'Comic Sans MS', cursive;">优雅钢笔</div>
+                                <div>钢笔体</div>
+                            </div>
+                            <div class="style-option">
+                                <div class="style-sample" style="font-family: 'Brush Script MT', cursive;">流畅草书</div>
+                                <div>草书体</div>
+                            </div>
+                            <div class="style-option">
+                                <div class="style-sample" style="font-family: 'Segoe Print', sans-serif;">可爱圆体</div>
+                                <div>圆体</div>
+                            </div>
+                            <div class="style-option">
+                                <div class="style-sample" style="font-family: 'Lucida Handwriting', cursive;">正式手写</div>
+                                <div>手写体</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>调整参数</label>
+                        <div style="display: flex; gap: 15px;">
+                            <div style="flex: 1;">
+                                <label for="size-slider">字体大小</label>
+                                <input type="range" id="size-slider" min="12" max="48" value="24" style="width: 100%;">
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="color-picker">文字颜色</label>
+                                <input type="color" id="color-picker" value="#333333" style="width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="cta-button" style="width: 100%;">生成手写文字</button>
+                </div>
+                
+                <div class="generator-preview">
+                    <div class="preview-box">
+                        <div class="preview-text" id="preview-text" style="font-size: 24px; color: #333333;">
+                            墨迹手写生成器，让数字文字拥有手写的温度与情感。
+                        </div>
+                    </div>
+                    <button class="secondary-button">下载图片</button>
+                    <button class="secondary-button">分享</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 效果示例 -->
+    <section class="examples" id="examples">
+        <div class="container">
+            <div class="section-title">
+                <h2>效果示例</h2>
+                <p>看看其他用户使用墨迹生成的手写文字效果</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-image" style="font-family: 'Comic Sans MS', cursive; background-color: #f0f8ff;">
+                        亲爱的朋友，祝你生日快乐，愿你的每一天都充满阳光和欢笑！
+                    </div>
+                    <div class="example-info">
+                        <h4>生日贺卡</h4>
+                        <p>优雅钢笔风格</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <div class="example-image" style="font-family: 'Brush Script MT', cursive; background-color: #fffaf0;">
+                        生活就像一盒巧克力，你永远不知道下一颗是什么味道。
+                    </div>
+                    <div class="example-info">
+                        <h4>名言摘录</h4>
+                        <p>流畅草书风格</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <div class="example-image" style="font-family: 'Segoe Print', sans-serif; background-color: #f5f5f5;">
+                        今日待办事项：1.完成项目报告 2.购买生日礼物 3.健身一小时
+                    </div>
+                    <div class="example-info">
+                        <h4>个人笔记</h4>
+                        <p>可爱圆体风格</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <div class="example-image" style="font-family: 'Lucida Handwriting', cursive; background-color: #f8f8ff;">
+                        感谢您选择我们的产品，我们始终致力于为您提供最优质的服务。
+                    </div>
+                    <div class="example-info">
+                        <h4>商务信函</h4>
+                        <p>正式手写风格</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>墨迹</h3>
+                    <p>智能手写文字生成器，让数字文字拥有手写的温度与情感。</p>
+                </div>
+                <div class="footer-column">
+                    <h3>产品</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">功能特色</a></li>
+                        <li><a href="#">价格方案</a></li>
+                        <li><a href="#">下载应用</a></li>
+                        <li><a href="#">更新日志</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>支持</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">使用教程</a></li>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>公司</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">博客</a></li>
+                        <li><a href="#">招聘</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 墨迹手写生成器 版权所有
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 风格选择
+            const styleOptions = document.querySelectorAll('.style-option');
+            styleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    styleOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 更新预览文本样式
+                    const previewText = document.getElementById('preview-text');
+                    const sample = this.querySelector('.style-sample');
+                    previewText.style.fontFamily = sample.style.fontFamily;
+                });
+            });
+            
+            // 字体大小调整
+            const sizeSlider = document.getElementById('size-slider');
+            sizeSlider.addEventListener('input', function() {
+                const previewText = document.getElementById('preview-text');
+                previewText.style.fontSize = this.value + 'px';
+            });
+            
+            // 颜色调整
+            const colorPicker = document.getElementById('color-picker');
+            colorPicker.addEventListener('input', function() {
+                const previewText = document.getElementById('preview-text');
+                previewText.style.color = this.value;
+            });
+            
+            // 文本输入更新
+            const textInput = document.getElementById('text-input');
+            textInput.addEventListener('input', function() {
+                const previewText = document.getElementById('preview-text');
+                previewText.textContent = this.value || '请输入文字...';
+            });
+        });
+    </script>
+</body>
+</html>
