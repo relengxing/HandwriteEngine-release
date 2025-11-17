@@ -3,7 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>手写文本生成器 - HandwriteEngine</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>HandwriteEngine - 专业手写文本生成器 | 表单填写工具 | 批量处理</title>
+    <meta name="title" content="HandwriteEngine - 专业手写文本生成器 | 表单填写工具 | 批量处理">
+    <meta name="description" content="HandwriteEngine是一款专业的手写文本生成器，支持将数字文本转换为自然手写风格文字。支持表单填写、模板管理、批量处理，支持Windows和macOS平台，绿色免安装，数据本地处理，保护隐私安全。">
+    <meta name="keywords" content="手写文本生成器,手写字体,表单填写,批量处理,HandwriteEngine,手写文字生成,表单工具,文本转手写,手写效果">
+    <meta name="author" content="HandwriteEngine">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Chinese">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://relengxing.github.io/HandwriteEngine-release/">
+    <meta property="og:title" content="HandwriteEngine - 专业手写文本生成器">
+    <meta property="og:description" content="将数字文本转换为自然的手写风格文字，支持表单填写、模板管理和批量处理。支持Windows和macOS平台，绿色免安装。">
+    <meta property="og:image" content="https://relengxing.github.io/HandwriteEngine-release/img/效果.png">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:site_name" content="HandwriteEngine">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://relengxing.github.io/HandwriteEngine-release/">
+    <meta property="twitter:title" content="HandwriteEngine - 专业手写文本生成器">
+    <meta property="twitter:description" content="将数字文本转换为自然的手写风格文字，支持表单填写、模板管理和批量处理。">
+    <meta property="twitter:image" content="https://relengxing.github.io/HandwriteEngine-release/img/效果.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://relengxing.github.io/HandwriteEngine-release/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/img/效果.png">
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "HandwriteEngine",
+      "applicationCategory": "DesktopApplication",
+      "operatingSystem": ["Windows", "macOS"],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "description": "专业的手写文本生成器，支持将数字文本转换为自然手写风格文字，支持表单填写、模板管理和批量处理。",
+      "screenshot": [
+        "https://relengxing.github.io/HandwriteEngine-release/img/效果.png",
+        "https://relengxing.github.io/HandwriteEngine-release/img/img1.png",
+        "https://relengxing.github.io/HandwriteEngine-release/img/img2.png"
+      ],
+      "featureList": [
+        "填写表单",
+        "手写效果",
+        "配置管理",
+        "设置管理",
+        "模板管理",
+        "批量处理"
+      ],
+      "downloadUrl": "https://github.com/relengxing/HandwriteEngine-release/releases",
+      "softwareVersion": "1.0.0"
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -17,6 +80,7 @@
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
@@ -27,13 +91,19 @@
 
         /* Header */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
             padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
         }
 
         nav {
@@ -71,20 +141,55 @@
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 100px 20px;
+            padding: 120px 20px;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            z-index: 1;
+        }
+        
+        .hero .container {
+            position: relative;
+            z-index: 2;
         }
 
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 56px;
+            margin-bottom: 24px;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .hero p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            opacity: 0.95;
+            font-size: 22px;
+            margin-bottom: 50px;
+            opacity: 0.98;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            line-height: 1.8;
+        }
+        
+        .hero .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: 0;
         }
 
         .cta-buttons {
@@ -95,16 +200,42 @@
         }
 
         .btn {
-            padding: 15px 40px;
+            padding: 18px 45px;
             font-size: 18px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
@@ -113,19 +244,22 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             color: white;
-            border: 2px solid white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.35);
+            border-color: white;
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
         }
 
         /* Features Section */
@@ -149,21 +283,46 @@
         }
 
         .feature-card {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 40px 30px;
+            border-radius: 20px;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
         .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 56px;
+            margin-bottom: 24px;
+            display: inline-block;
+            transition: transform 0.4s;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
         }
 
         .feature-card h3 {
@@ -192,25 +351,45 @@
 
         .screenshot-placeholder {
             background: white;
-            border-radius: 15px;
-            padding: 40px;
+            border-radius: 20px;
+            padding: 0;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
             min-height: 300px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 2px dashed #ddd;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .screenshot-placeholder:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
         .screenshot-placeholder img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
             display: none;
+            transition: transform 0.5s;
+        }
+        
+        .screenshot-placeholder:hover img {
+            transform: scale(1.05);
         }
 
+        .screenshot-placeholder.has-image {
+            padding: 0;
+            min-height: 400px;
+        }
+        
         .screenshot-placeholder.has-image img {
             display: block;
         }
@@ -243,21 +422,48 @@
         .download-btn {
             background: white;
             color: #667eea;
-            padding: 20px 50px;
-            border-radius: 15px;
+            padding: 25px 60px;
+            border-radius: 20px;
             text-decoration: none;
             font-size: 18px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            gap: 18px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .download-btn:hover::before {
+            left: 100%;
         }
 
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .download-btn .icon {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .download-btn > div {
+            position: relative;
+            z-index: 1;
         }
 
         .download-btn .icon {
@@ -290,27 +496,82 @@
             color: #667eea;
         }
 
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 9999;
+            transition: width 0.1s;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
+            .hero {
+                padding: 80px 20px;
+            }
+            
             .hero h1 {
-                font-size: 32px;
+                font-size: 36px;
             }
 
             .hero p {
+                font-size: 18px;
+            }
+            
+            .btn {
+                padding: 15px 35px;
                 font-size: 16px;
             }
 
             .nav-links {
                 display: none;
             }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .feature-card {
+                padding: 30px 20px;
+            }
 
             .screenshot-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .screenshot-placeholder.has-image {
+                min-height: 300px;
             }
 
             .download-buttons {
                 flex-direction: column;
                 align-items: center;
+            }
+            
+            .download-btn {
+                padding: 20px 40px;
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
             }
         }
 
@@ -318,47 +579,83 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
 
-        .feature-card, .screenshot-placeholder {
+        .feature-card {
             animation: fadeInUp 0.6s ease-out;
         }
+        
+        .screenshot-placeholder {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .feature-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .feature-card:nth-child(1) .feature-icon { animation-delay: 0s; }
+        .feature-card:nth-child(2) .feature-icon { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) .feature-icon { animation-delay: 0.4s; }
+        .feature-card:nth-child(4) .feature-icon { animation-delay: 0.6s; }
+        .feature-card:nth-child(5) .feature-icon { animation-delay: 0.8s; }
+        .feature-card:nth-child(6) .feature-icon { animation-delay: 1s; }
     </style>
 </head>
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
     <!-- Header -->
     <header>
-        <nav class="container">
-            <div class="logo">✍️ HandwriteEngine</div>
-            <ul class="nav-links">
-                <li><a href="#features">功能特性</a></li>
-                <li><a href="#screenshots">效果展示</a></li>
-                <li><a href="#download">下载</a></li>
+            <nav class="container" aria-label="主导航">
+            <div class="logo" role="banner">✍️ HandwriteEngine</div>
+            <ul class="nav-links" role="list">
+                <li role="listitem"><a href="#features" aria-label="跳转到功能特性">功能特性</a></li>
+                <li role="listitem"><a href="#screenshots" aria-label="跳转到效果展示">效果展示</a></li>
+                <li role="listitem"><a href="#download" aria-label="跳转到下载">下载</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" style="background:
-url('img/截图2.png');">
-        <div class="container" >
+    <section class="hero">
+        <img src="img/截图2.png" alt="HandwriteEngine手写文本生成器界面展示" class="hero-bg" loading="lazy">
+        <div class="container">
             <h1>手写文本生成器</h1>
             <p>将数字文本转换为自然的手写风格文字<br>支持表单填写、模板管理和批量处理</p>
             <div class="cta-buttons">
-                <a href="#download" class="btn btn-primary">立即下载</a>
-                <a href="#features" class="btn btn-secondary">了解更多</a>
+                <a href="#download" class="btn btn-primary" aria-label="立即下载HandwriteEngine"><span>立即下载</span></a>
+                <a href="#features" class="btn btn-secondary" aria-label="了解更多功能特性"><span>了解更多</span></a>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features" id="features">
+    <section class="features" id="features" aria-label="核心功能">
         <div class="container">
             <h2 class="section-title">核心功能</h2>
             <div class="features-grid">
@@ -397,35 +694,50 @@ url('img/截图2.png');">
     </section>
 
     <!-- Screenshots Section -->
-    <section class="screenshots" id="screenshots">
+    <section class="screenshots" id="screenshots" aria-label="效果展示">
         <div class="container">
             <h2 class="section-title">效果展示</h2>
             <div class="screenshot-grid">
                 <div class="screenshot-placeholder">
-                    <img src="/img/img1.png" alt="效果图1" />
-                </div>
-                <div class="screenshot-placeholder">
-                    <img src="/img/img2.png" alt="效果图2" />
+                    <img src="img/效果.png" alt="HandwriteEngine手写文本生成效果展示 - 自然手写风格文字" loading="lazy" />
                     <div class="placeholder-text">
                         <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
                         <p>在此处添加效果图</p>
-                        <p style="font-size: 12px; margin-top: 10px;">建议尺寸：800x600px</p>
                     </div>
                 </div>
                 <div class="screenshot-placeholder">
-                    <img src="/img/照片.jpg" alt="效果图3" />
+                    <img src="img/img1.png" alt="HandwriteEngine表单填写功能演示 - 表单背景图导入" loading="lazy" />
                     <div class="placeholder-text">
                         <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
                         <p>在此处添加效果图</p>
-                        <p style="font-size: 12px; margin-top: 10px;">建议尺寸：800x600px</p>
                     </div>
                 </div>
                 <div class="screenshot-placeholder">
-                    <img src="/img/生物实验报告2.png" alt="效果图4" />
+                    <img src="img/img2.png" alt="HandwriteEngine参数设置界面 - 手写效果参数调整" loading="lazy" />
                     <div class="placeholder-text">
                         <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
                         <p>在此处添加效果图</p>
-                        <p style="font-size: 12px; margin-top: 10px;">建议尺寸：800x600px</p>
+                    </div>
+                </div>
+                <div class="screenshot-placeholder">
+                    <img src="img/生物实验报告.png" alt="HandwriteEngine实际应用案例 - 生物实验报告手写效果" loading="lazy" />
+                    <div class="placeholder-text">
+                        <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
+                        <p>在此处添加效果图</p>
+                    </div>
+                </div>
+                <div class="screenshot-placeholder">
+                    <img src="img/生物实验报告2.png" alt="HandwriteEngine手写文本生成器 - 实验报告填写示例" loading="lazy" />
+                    <div class="placeholder-text">
+                        <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
+                        <p>在此处添加效果图</p>
+                    </div>
+                </div>
+                <div class="screenshot-placeholder">
+                    <img src="img/参数设置.png" alt="HandwriteEngine参数配置界面 - 文字和笔画参数调整" loading="lazy" />
+                    <div class="placeholder-text">
+                        <p style="font-size: 48px; margin-bottom: 10px;">🖼️</p>
+                        <p>在此处添加效果图</p>
                     </div>
                 </div>
             </div>
@@ -433,20 +745,20 @@ url('img/截图2.png');">
     </section>
 
     <!-- Download Section -->
-    <section class="download" id="download">
+    <section class="download" id="download" aria-label="下载">
         <div class="container">
             <h2 class="section-title" style="color: white;">立即下载</h2>
             <p style="font-size: 18px; margin-bottom: 20px; opacity: 0.95;">支持 Windows 和 macOS 平台</p>
             <div class="download-buttons">
-                <a href="https://github.com/relengxing/HandwriteEngine-release/releases/download/1.0.0/HandwriteEngine-win-v1.0.0.zip" class="download-btn" id="download-windows">
-                    <span class="icon">🪟</span>
+                <a href="https://github.com/relengxing/HandwriteEngine-release/releases/download/1.0.0/HandwriteEngine-win-v1.0.0.zip" class="download-btn" id="download-windows" aria-label="下载Windows版本" download>
+                    <span class="icon" aria-hidden="true">🪟</span>
                     <div>
                         <div style="font-weight: bold;">Windows 版本</div>
                         <div style="font-size: 14px; opacity: 0.7;">下载 .exe 安装包</div>
                     </div>
                 </a>
-                <a href="https://github.com/relengxing/HandwriteEngine-release/releases/download/1.0.0/HandwriteEngine-mac-v1.0.0.zip" class="download-btn" id="download-mac">
-                    <span class="icon">🍎</span>
+                <a href="https://github.com/relengxing/HandwriteEngine-release/releases/download/1.0.0/HandwriteEngine-mac-v1.0.0.zip" class="download-btn" id="download-mac" aria-label="下载macOS版本" download>
+                    <span class="icon" aria-hidden="true">🍎</span>
                     <div>
                         <div style="font-weight: bold;">macOS 版本</div>
                         <div style="font-size: 14px; opacity: 0.7;">下载 .dmg 安装包</div>
@@ -474,15 +786,40 @@ url('img/截图2.png');">
     </footer>
 
     <script>
+        // 滚动进度条
+        window.addEventListener('scroll', function() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Header滚动效果
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        });
+
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });
@@ -490,36 +827,62 @@ url('img/截图2.png');">
 
         // 图片加载处理
         document.querySelectorAll('.screenshot-placeholder img').forEach(img => {
-            img.addEventListener('load', function() {
-                this.parentElement.classList.add('has-image');
-            });
-            img.addEventListener('error', function() {
-                this.parentElement.classList.remove('has-image');
-            });
-        });
-
-        // 下载按钮提示（实际使用时请替换为真实下载链接）
-        document.getElementById('download-windows').addEventListener('click', function(e) {
-            // 实际使用时，取消下面的注释并替换为真实链接
-            // window.location.href = 'https://your-domain.com/downloads/HandwriteEngine-Windows.exe';
-            
-            // 临时提示
-            if (this.getAttribute('href') === '#') {
-                e.preventDefault();
-                alert('请将 Windows 下载链接添加到 id="download-windows" 的 a 标签的 href 属性中');
+            // 检查图片是否已经加载
+            if (img.complete && img.naturalHeight !== 0) {
+                img.parentElement.classList.add('has-image');
+            } else {
+                img.addEventListener('load', function() {
+                    this.parentElement.classList.add('has-image');
+                });
+                img.addEventListener('error', function() {
+                    this.parentElement.classList.remove('has-image');
+                });
             }
         });
 
-        document.getElementById('download-mac').addEventListener('click', function(e) {
-            // 实际使用时，取消下面的注释并替换为真实链接
-            // window.location.href = 'https://your-domain.com/downloads/HandwriteEngine-macOS.dmg';
-            
-            // 临时提示
-            if (this.getAttribute('href') === '#') {
-                e.preventDefault();
-                alert('请将 macOS 下载链接添加到 id="download-mac" 的 a 标签的 href 属性中');
-            }
-        });
+        // 懒加载图片观察器
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // 功能卡片动画（滚动时显示）
+        if ('IntersectionObserver' in window) {
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        cardObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                cardObserver.observe(card);
+            });
+        }
     </script>
 </body>
 </html>
